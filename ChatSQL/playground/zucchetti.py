@@ -105,7 +105,7 @@ emb.upsert([
 '''
 #tabella movie
 emb.upsert([(0, {"text": "id of the movie as primary key", "campo": "id", "tabella": "movie"})])
-emb.upsert([(1, {"text": "title of the movie", "campo": "title", "tabella": "movie"})])
+emb.upsert([(1, {"text": "title of the movie, name of the film", "campo": "title", "tabella": "movie"})])
 emb.upsert([(2, {"text": "release date of the movie", "campo": "release_date", "tabella": "movie"})])
 emb.upsert([(3, {"text": "genre of the movie", "campo": "genre", "tabella": "movie"})])
 emb.upsert([(4, {"text": "foreign key of the director of the movie", "campo": "director_id", "tabella": "movie"})])
