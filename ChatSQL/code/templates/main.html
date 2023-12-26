@@ -7,16 +7,20 @@
 <body>
 <h1 align="center">Pagina Utente</h1>
             <form align="center" method="post">
-                <label for="c">Select data base:</label><br>
-                <select name="dbname" id="db">
+                <label for="db">Select data base:</label><br>
+                <select name="db_name" id="db">
                     <option value="">--Please choose an option--</option>
-                    {% for db_name in data %}
-                        <option value="{{ db_name }}">{{db_name}}</option>
+                    {% for data in data %}
+                        <option value="{{ data }}">{{data}}</option>
                     {% endfor %}
                 </select><br>
+
                 <label for="lname">Enter your query:</label><br>
-                <input type="text" id="lname" name="uquery" width="200" height="200">
-                <input type="submit" value="Submit" width="200" height="200">
+                <input type="text" id="lname" name="user_query" width="200" height="200">
+                <input type="submit" value="Submit" width="200" height="200"><br>
+
+                <label for="promptarea">Your prompt:</label><br>
+                <textarea rows="10" cols="100" name="prompt_area" id="promptarea">{{prompt_area}}</textarea>
             </form>
 </body>
 </html>
