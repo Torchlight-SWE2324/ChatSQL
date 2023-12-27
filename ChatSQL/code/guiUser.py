@@ -28,22 +28,16 @@ def embGUI(jsonFile, user_query):
     generated_commands = generateEmbeddingUpsertGUI(jsonFile)
     logging.getLogger("transformers.modeling_utils").setLevel(logging.ERROR)
 
-    # Start loading animation in a separate thread
     loading_thread = threading.Thread(target=loading_animation, args=(len(generated_commands) * 0.2,))
     loading_thread.start()
 
-    # Initialize the Embeddings module with the specified model
     emb = Embeddings({"path": "sentence-transformers/stsb-roberta-large", "content": True})
-
-    # Upsert the data into the txtai Embeddings
     emb.index([{"table": command["table"], "field": command["field"], "text": command["description"]} for command in generated_commands])
 
-
-    # Wait for the loading animation thread to finish
-    loading_thread.join()
+    loading_thread.join() # Wait for the loading animation thread to finish
 
     results = emb.search(
-            f"select score,table, field,text  from txtai where similar('{user_query}') limit 30")
+            f"select score, table, field, text  from txtai where similar('{user_query}') limit 30")
     table_fields = {}
 
     print("\n\033[1mSCORE FOR DEBUGGING ONLY\033[0m")
@@ -101,7 +95,6 @@ def embGUI(jsonFile, user_query):
 
 
 #/////// END /////////////////////////////////////////////////////////////////////////////
-
 
 
 @app.route("/", methods=['POST','GET'])
