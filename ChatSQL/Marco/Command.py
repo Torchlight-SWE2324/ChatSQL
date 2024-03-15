@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from AuthenticationHandler import AuthenticationHandler
+from authentication import *
 
 # Interfaccia Command
 class Command(ABC):
@@ -7,16 +7,20 @@ class Command(ABC):
     def execute(self):
         pass
 
-
 class LoginCommand(Command):
-    def __init__(self, receiver: AuthenticationHandler, username: str, password: str):
-        self.receiver = receiver
+    def __init__(self, receiver, username, password):
+        self.receiver = receiver #authentication
         self.username = username
         self.password = password
+        self.loggIN = False
+
 
     def execute(self):
-        self.receiver.login(self.username, self.password)
+        self.loggIN = self.receiver.check_login(self.username, self.password)
 
+    def getLoggIN(self):
+        return self.loggIN
+'''
 
 class LogoutCommand(Command):
     def __init__(self, receiver: AuthenticationHandler):
@@ -64,3 +68,4 @@ class ResponseGenerationCommand(Command): #DA FARE
 
     def execute(self):
         self.receiver.response_generation()
+'''

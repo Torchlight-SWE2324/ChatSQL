@@ -12,6 +12,7 @@ def main():
     #comandi per inizializzare la MAP
     controller.initialize_commands()
     view.initialize_commands()
+    #model.register_command()
 
     #da qui inizia il programma
     view.sezioneUtente()

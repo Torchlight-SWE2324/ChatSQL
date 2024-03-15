@@ -14,14 +14,16 @@ class AuthenticationCSV(Authentication):
         self.password = None
 
     def check_login(self, username, password):
+
         dirPath = os.path.dirname(os.path.realpath(__file__))
         file_path = os.path.join(dirPath, "pswrd.csv")
+        print("DAti")
         with open(file_path, "r") as f:
                 reader = csv.reader(f)
                 for row in reader:
                     if row[0] == username and row[1] == password:
                         return True
-        return False
+        #return False
     
 
 class AuthenticationTXT(Authentication):
