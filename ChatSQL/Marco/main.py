@@ -8,7 +8,9 @@ def main():
     model.attach(view)
     view.attach(controller)
 
+    view.dictionary_selection()
     view.technician_login()
+
 
 
 if __name__ == "__main__":

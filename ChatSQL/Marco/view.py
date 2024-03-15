@@ -1,6 +1,10 @@
 import streamlit as st
 from observer import *
 from Subject import *
+
+from dictionary_container import *
+
+
 class View(Observer, Subject):
     def __init__(self, model):
         Subject.__init__(self)
@@ -14,7 +18,7 @@ class View(Observer, Subject):
         self.username = None
         self.password = None
         self.isLogged = False
-    
+
 
         
     def successLogin(self):
@@ -43,17 +47,21 @@ class View(Observer, Subject):
 
 
     def technician_login(self):
-    
         self.username = st.sidebar.text_input("Username")
         self.password = st.sidebar.text_input("Password", type="password")
-    
+
         if st.sidebar.button("LoginButton"):
-            #st.success("Login successful!")
-            #if not empty
+            # st.success("Login successful!")
+            # if not empty
             if self.username or self.password:
                 self.notify_observers()
 
-            #st.error("Login failed. Invalid username or password.")
+            # st.error("Login failed. Invalid username or password.")
+
+
+    def dictionary_selection(self):
+        self.dictionaries_list = st.sidebar.selectbox('Select dictionary:', DictionaryContainer().get_dictionaries_names_list())
+
 
     def getUser(self):
         return [self.username, self.password]
