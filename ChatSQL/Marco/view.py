@@ -1,36 +1,65 @@
 import streamlit as st
 from observer import *
 from Subject import *
-
-from dictionary_container import *
+from dictionary_container import * #??? SERVE TUTTO ???
+from upload_dictionary_service import *
 
 
 class View(Observer, Subject):
-    def __init__(self, model):
+    def __init__(self, model, upload_dictionary_service, select_dictionary_service):
+        #print("View::__init__----")#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         Subject.__init__(self)
         Observer.__init__(self)
         self._model = model
-        #self._model.attach(self)
-        #self.attach(self)
         st.title("ChatSQL")
         st.subheader("Type your natural language query in the chat box below and press enter to get the corresponding SQL query.")
         st.sidebar.title("Login sidebar")
         self.username = None
         self.password = None
         self.isLogged = False
+        self.container_upload = None
+        self.dictionaries_selection = None
+        self.upload_dictionary_service = upload_dictionary_service
+        self.select_dictionary_service = select_dictionary_service
 
 
-        
+    def dictionary_selection(self):
+        #print("View::dictionary_selection---- ") # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        self.dictionaries_selection = st.sidebar.selectbox('Select dictionary:',
+                                      self.select_dictionary_service.get_all_dictionaries_names())
+
+
+    def dictionary_upload(self):
+        #print("View::dictionary_upload---- ")  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        self.container_upload = st.sidebar.container()
+
+        with self.container_upload:
+            uploaded_file = st.file_uploader("Upload new data dictionary file", accept_multiple_files=False)
+            if st.button("Upload file", type="primary", on_click=None, disabled=uploaded_file == None):
+                self.__upload_dictionary(uploaded_file)
+
+
+    def __upload_dictionary(self, uploaded_file):
+        #print("View::__upload_dictionary------ ")  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        #if uploaded_file != None:
+        xxx = self.upload_dictionary_service.upload_dictionary(uploaded_file)
+        print(xxx)
+
+
+
     def successLogin(self):
         self.isLogged = True
         st.success("Login successful!")
 
+
     def erroreLogin(self):
         st.error("Login NO")
+
 
     def successLogout(self):
         self.isLogged = False
         st.success("Logout successful!")
+
 
     def update(self):
         print("View: Updating view")
@@ -59,9 +88,6 @@ class View(Observer, Subject):
             # st.error("Login failed. Invalid username or password.")
 
 
-    def dictionary_selection(self):
-        self.dictionaries_list = st.sidebar.selectbox('Select dictionary:', DictionaryContainer().get_dictionaries_names_list())
-
-
     def getUser(self):
         return [self.username, self.password]
+

@@ -2,6 +2,7 @@ from Subject import Subject
 
 class Model(Subject):
     def __init__(self):
+        #print("Model::__init__-----")
         super().__init__()
         self._state = ""
         self._username = ""

@@ -5,6 +5,7 @@ from observer import *
 
 class Controller(Observer):
     def __init__(self, model, view):
+        #print("Controller::__init__-----")#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         self._model = model
         self._view = view
         #self._model.attach(self)
