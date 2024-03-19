@@ -30,21 +30,23 @@ class View(Observer, Subject):
         self.container1 = st.container()
         self.containerNotifiche = st.container()
 
+        self.chatContainer = st.container()
+
         self.container1.title("ChatSQL")
         self.container1.subheader("Type your natural language query in the chat box below and press enter to get the corresponding SQL query.")
 
-    def print2(self):
-        print("TROVATO")
+
     
     def sidebarHandler(self):
         if st.session_state.logged_in == False:
             self.sezioneUtente()
+            self.chat()
         else:
             self.sidebarTecnico()
+            self.chat()
 
     def sezioneUtente(self):  
         self.sideBarUtente()
-        self.chatUtente()
 
     def sideBarUtente(self):
         self.titleS.title("Sezione Utente")
@@ -57,6 +59,7 @@ class View(Observer, Subject):
             self.operazioneLogin()
         
     def sidebarTecnico(self):
+        
         self.titleS.title("Sezione Tecnico")
         self.subtitleS.subheader("Log out to exit the Technician area.")
         self.deleteFile()
@@ -66,8 +69,7 @@ class View(Observer, Subject):
         if clickLogout:  
             self.operazioneLogout()
 
-    def chatUtente(self):
-        pass
+    
         
     def initialize_commands(self):
         self.button_command_map["login"] = self.esitoLogin  
@@ -112,12 +114,13 @@ class View(Observer, Subject):
             self.container_delete.empty()
             self.button_delete.empty()
             self.sidebarHandler()
+            self.container_upload.empty()
+            self.button_upload.empty()
 
 #delete
     def deleteFile(self):
         files = self._model.getFiles()
         file = self.container_delete.selectbox('Your data dictionary files', files, key="dizionari")
-        print(file)
         clickSelectFile = self.button_delete.button("Delete selected file", type="primary", disabled=file == None)
         if clickSelectFile:  
             self.operazioneDelete(file)
@@ -127,15 +130,14 @@ class View(Observer, Subject):
     def operazioneDelete(self, file):
         self.ultimaOperazione= "delete"
         self.file = file
-        print(file)
         self.notify_observers()
 
     def esitoDelete(self):
         if self._model.getFileDeleted() == True:
             #self.containerNotifiche.success(f"File '{self.file}' eliminato con successo!")  
             self.containerNotifiche.success("Eliminato!")
-            time.sleep(1.75)
-            st.rerun() 
+            time.sleep(.5)
+            st.rerun()
         else:
             self.containerNotifiche.warning("Il file non è stato eliminato!")
 
@@ -146,7 +148,6 @@ class View(Observer, Subject):
 
         
     def operazioneUpload(self, file):
-        print("upload fun: operazioneUpload")
         self.ultimaOperazione = "upload"
         self.fileUpload = file
         self.notify_observers()
@@ -169,3 +170,17 @@ class View(Observer, Subject):
     def getFileUploaded(self):
         return self.fileUpload
 
+
+
+
+    #Chat utente
+    def chat(self):
+        self.chatUtente()
+
+    def chatUtente(self):
+        #Se non ho file nel db, non posso fare nulla e non posso visualizzare la chat
+        if len(self._model.getFiles()) == 0:
+            self.chatContainer.warning("No data dictionary files found. Please upload a file to continue.")
+        else:
+            self.chatContainer.chat_input("Type your query here", key="chat", max_chars=1000)
+            
