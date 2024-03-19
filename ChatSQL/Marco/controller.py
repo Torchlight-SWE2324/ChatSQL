@@ -12,7 +12,8 @@ class Controller(Observer):
     def initialize_commands(self):  
         self.button_command_map["login"] = self.login
         self.button_command_map["logout"] = self.logout
-        self.button_command_map["delete"] = self.delete    
+        self.button_command_map["delete"] = self.delete  
+        self.button_command_map["upload"] = self.upload
 
     def update(self):
         operazione = self._view.getOperazione()
@@ -32,3 +33,6 @@ class Controller(Observer):
         file = self._view.getFile()
         self._model.deleteFile(file)
 
+    def upload(self):
+        file = self._view.getFileUploaded()
+        self._model.uploadFileModel(file)

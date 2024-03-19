@@ -14,6 +14,8 @@ class View(Observer, Subject):
         self.password = ''
         self.ultimaOperazione = None
         self.button_command_map = {}
+        self.file = ''
+        self.fileUpload = ""
 
         self.titleS = st.sidebar.empty()
         self.subtitleS = st.sidebar.empty()
@@ -22,6 +24,8 @@ class View(Observer, Subject):
         self.loginS = st.sidebar.empty()
         self.container_delete = st.sidebar.empty()
         self.button_delete = st.sidebar.empty()
+        self.container_upload = st.sidebar.empty()
+        self.button_upload = st.sidebar.empty()
         self.logout = st.sidebar.empty()
         self.container1 = st.container()
         self.containerNotifiche = st.container()
@@ -56,6 +60,7 @@ class View(Observer, Subject):
         self.titleS.title("Sezione Tecnico")
         self.subtitleS.subheader("Log out to exit the Technician area.")
         self.deleteFile()
+        self.uploadFile()
         clickLogout = self.logout.button("Logout", key="logout")
         
         if clickLogout:  
@@ -68,6 +73,7 @@ class View(Observer, Subject):
         self.button_command_map["login"] = self.esitoLogin  
         self.button_command_map["logout"] = self.esitoLogout 
         self.button_command_map["delete"] = self.esitoDelete
+        self.button_command_map["upload"] = self.esitoUpload
 
     def update(self):
         if self.ultimaOperazione in self.button_command_map:
@@ -133,9 +139,24 @@ class View(Observer, Subject):
         else:
             self.containerNotifiche.warning("Il file non è stato eliminato!")
 
+#update
+    def uploadFile(self):
+        uploaded_file = self.container_upload.file_uploader("Upload new data dictionary file", accept_multiple_files=False, type="json")
+        self.button_upload.button("Upload file", type="primary", on_click=self.operazioneUpload(uploaded_file), disabled=uploaded_file == None)
+
+        
+    def operazioneUpload(self, file):
+        print("upload fun: operazioneUpload")
+        self.ultimaOperazione = "upload"
+        self.fileUpload = file
+        self.notify_observers()
+
+    def esitoUpload(self):
+        pass
+        
 
 
-#metodi get
+    #metodi get
     def getUser(self):
         return [self.username, self.password]
     
@@ -144,21 +165,7 @@ class View(Observer, Subject):
     
     def getFile(self):
         return self.file
+    
+    def getFileUploaded(self):
+        return self.fileUpload
 
-
-    ''' 
-        # File selection
-        def selectFile(self):
-            # show a dropdown menu with all the files in the directory
-            self._model.getFiles()
-            st.sidebar.files = self._model.getFiles()
-            st.sidebar.selected_file = st.sidebar.selectbox('Your data dictionary files', files)
-
-        # File upload
-        def uploadFile(self):
-            #self.container_upload = st.sidebar.container()
-            with  self.container_upload:
-                st.session_state.uploaded_file = st.file_uploader("Upload new data dictionary file", accept_multiple_files=False, type="json")
-                st.button("Upload file", type="primary", on_click=self.print, disabled=st.session_state.uploaded_file == None)
-        
-    '''  
