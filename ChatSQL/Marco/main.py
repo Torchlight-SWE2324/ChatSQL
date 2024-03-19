@@ -13,9 +13,12 @@ def main():
     controller.initialize_commands()
     view.initialize_commands()
 
-    st.session_state.logged_in = False
+    if "logged_in" not in st.session_state:
+        st.session_state.logged_in = False
+
     #da qui inizia il programma
     view.sidebarHandler()
+    
    
 
 if __name__ == "__main__":

@@ -14,7 +14,10 @@ class Model(Subject):
         self._password = ""
         self.fileDeleted = False
         self.isLogged = False
-        self.filesInDB = [].sort(key = os.path.getctime)
+        self.file_deleted = False
+        self.filesInDB = [] #.sort(key = os.path.getctime)
+        dirPath = os.path.dirname(os.path.realpath(__file__))
+        self.database_path = os.path.join(dirPath, "db")
 
 
     def check_login(self, username, password):
@@ -25,14 +28,32 @@ class Model(Subject):
     def getIsLogedd(self):
         return self.isLogged
     
-    def getFiles(self, database_path):
-        files = os.listdir(database_path)
+    def getFiles(self):
+        files = os.listdir(self.database_path)
         self.filesInDB = files
         return files
     
     def logout(self):
         self.isLogged = False
         self.notify_observers()
+
+    def deleteFile(self, file):
+        if file:
+            file_paths_to_try = [os.path.join(self.database_path, file)]
+            self.file_deleted = False
+            for file_path in file_paths_to_try:
+                if os.path.exists(file_path):
+                    os.remove(file_path)
+                    self.filesInDB = self.getFiles()
+                    #print(self.filesInDB)
+                    self.file_deleted = True
+            self.notify_observers()
+    
+    def getFileDeleted(self):
+        return self.file_deleted 
+
+        
+
         
 '''    
     def deleteFile(self, file_name, database_path):

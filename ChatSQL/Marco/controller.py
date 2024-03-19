@@ -11,7 +11,8 @@ class Controller(Observer):
         
     def initialize_commands(self):  
         self.button_command_map["login"] = self.login
-        self.button_command_map["logout"] = self.logout    
+        self.button_command_map["logout"] = self.logout
+        self.button_command_map["delete"] = self.delete    
 
     def update(self):
         operazione = self._view.getOperazione()
@@ -26,3 +27,8 @@ class Controller(Observer):
 
     def logout(self):
         self._model.logout()
+
+    def delete(self):
+        file = self._view.getFile()
+        self._model.deleteFile(file)
+
