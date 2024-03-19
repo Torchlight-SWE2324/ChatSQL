@@ -13,8 +13,9 @@ def main():
     controller.initialize_commands()
     view.initialize_commands()
 
+    st.session_state.logged_in = False
     #da qui inizia il programma
-    view.sezioneUtente()
+    view.sidebarHandler()
    
 
 if __name__ == "__main__":

@@ -10,7 +10,8 @@ class Controller(Observer):
         self.button_command_map = {}
         
     def initialize_commands(self):  
-        self.button_command_map["login"] = self.login    
+        self.button_command_map["login"] = self.login
+        self.button_command_map["logout"] = self.logout    
 
     def update(self):
         operazione = self._view.getOperazione()
@@ -22,3 +23,6 @@ class Controller(Observer):
     def login(self):
         user, psswd = self._view.getUser()
         self._model.check_login(user, psswd) 
+
+    def logout(self):
+        self._model.logout()
