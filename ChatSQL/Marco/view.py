@@ -46,7 +46,6 @@ class View(Observer, Subject):
         print(xxx)
 
 
-
     def successLogin(self):
         self.isLogged = True
         st.success("Login successful!")
