@@ -19,9 +19,6 @@ def main():
     view.dictionary_selection()
     view.technician_login()
 
-    print("!!!!!!!!!! FINE MAIN !!!!!!!!!!!")#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    print("") #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 
 
 if __name__ == "__main__":
