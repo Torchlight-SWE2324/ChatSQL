@@ -1,5 +1,4 @@
 import os
-from Subject import Subject
 from dictionary_container import DictionaryContainer
 
 #per Schema verifier
@@ -8,7 +7,7 @@ from dictionary_container import Dictionary
 from jsonschema import validate, ValidationError
 import json
 
-class UploadDictionaryService(Subject):
+class UploadDictionaryService():
     #????? CONTROLLO TIPO DIZIONARIO PRIMA DI AGGIUNGERE
     def __init__(self, dictionary_container: DictionaryContainer):
         # print("UploadDictionaryService::__init__:::") #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

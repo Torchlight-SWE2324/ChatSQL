@@ -1,16 +1,11 @@
 import streamlit as st
-from observer import *
-from Subject import *
 from dictionary_container import * #??? SERVE TUTTO ???
 from upload_dictionary_service import *
 
 
-class View(Observer, Subject):
-    def __init__(self, model, upload_dictionary_service, select_dictionary_service):
+class View():
+    def __init__(self, upload_dictionary_service, select_dictionary_service):
         #print("View::__init__----")#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        Subject.__init__(self)
-        Observer.__init__(self)
-        self._model = model
         st.title("ChatSQL")
         st.subheader("Type your natural language query in the chat box below and press enter to get the corresponding SQL query.")
         st.sidebar.title("Login sidebar")

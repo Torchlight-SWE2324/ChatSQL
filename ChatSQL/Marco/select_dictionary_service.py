@@ -1,7 +1,6 @@
-from Subject import Subject
 from dictionary_container import DictionaryContainer
 
-class SelectDictionaryService(Subject):
+class SelectDictionaryService():
 
     def __init__(self, dictionary_container: DictionaryContainer):
         super().__init__()

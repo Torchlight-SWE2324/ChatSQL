@@ -1,6 +1,6 @@
-from controller import *
 from upload_dictionary_service import *
 from select_dictionary_service import *
+from view import *
 
 def main():
 
@@ -8,12 +8,8 @@ def main():
     upload_dictionary_service = UploadDictionaryService(dictionary_container)
     select_dictionary_service = SelectDictionaryService(dictionary_container)
 
-    model = Model()
-    view = View(model, upload_dictionary_service, select_dictionary_service)
-    controller = Controller(model, view)
 
-    model.attach(view)
-    view.attach(controller)
+    view = View(upload_dictionary_service, select_dictionary_service)
 
     view.dictionary_upload()
     view.dictionary_selection()
