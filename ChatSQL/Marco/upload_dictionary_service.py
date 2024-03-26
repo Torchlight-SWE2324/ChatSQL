@@ -2,7 +2,6 @@ import os
 from dictionary_container import DictionaryContainer
 
 #per Schema verifier
-from abc import ABC, abstractmethod
 from dictionary_container import Dictionary
 from jsonschema import validate, ValidationError
 import json
@@ -45,7 +44,7 @@ class UploadDictionaryService():
             return f"The file is not compliant with the schema. Please upload a valid file."
 
 
-    def upload_dictionary(self, uploaded_file):
+    def upload_dictionary(self, uploaded_file): #????? RITORNARE CONFERMA?? COME STRINGA???
         #!!!!!!!!!!!!!!!! AVVISARE SELECTDICTIONARYSERVICE PER METTERLO AL PRIMO POSTO
         dictionary_check = self.__dictionary_check(uploaded_file)
 
