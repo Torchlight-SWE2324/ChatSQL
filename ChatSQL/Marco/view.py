@@ -1,6 +1,18 @@
 import streamlit as st
 from dictionary_container import * #??? SERVE TUTTO ???
 from upload_dictionary_service import *
+from select_dictionary_service import *
+
+class DictionarySelectionWidget():
+    def __init__(self, select_dictionary_service: SelectDictionaryService):
+        self.select_dictionary_service = select_dictionary_service
+        self.dictionaries_selection = st.sidebar.selectbox('Select dictionary:',
+                                      self.select_dictionary_service.get_all_dictionaries_names())
+
+
+class ClientView():
+    def __init__(self, dictionary_selection_widget: DictionarySelectionWidget):
+        self.dictionary_selection_widget = dictionary_selection_widget
 
 
 class View():
