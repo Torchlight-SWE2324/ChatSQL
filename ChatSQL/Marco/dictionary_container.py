@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import os
 import streamlit as st
+import csv
 
 class Dictionary(ABC):
     def __init__(self, dictionary_name: str, dictionary_path: str):
@@ -28,18 +29,35 @@ class JSONDictionary(Dictionary):
 
 class DictionaryContainer():
     def __init__(self):
+        '''
         if "uploaded_dictionaries" not in st.session_state:
             st.session_state.uploaded_dictionaries = []
+        '''
+        dictionaries_folder_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "dictionaries")
+        dictionary_service_folder_path = os.path.join(dictionaries_folder_path, "dictionary_service")
+        dictionary_service_file_path = os.path.join(dictionary_service_folder_path, "dictionary_service_file.csv")
+        self.dictionaries_folder_path = dictionaries_folder_path
+        self.dictionary_service_file_path = dictionary_service_file_path
 
 
     def __is_dictionary_present(self, dictionary_name: str) -> bool:
+        '''
         for dictionary in st.session_state.uploaded_dictionaries:
             if dictionary.get_dictionary_name() == dictionary_name:
                 return True
         return False
+        '''
+        with open(self.dictionary_service_file_path, "r") as service_file:
+            reader = csv.reader(service_file)
+            for row in reader:
+                if len(row) > 0:
+                    if row[0] == dictionary_name:
+                        return True
+            return False
 
 
     def __order_dictionaries(self):
+        '''
         dictionaries_names_list = self.get_all_dictionaries_names()
         ordered_dictionaries_names_list = sorted(dictionaries_names_list)
         st.session_state.uploaded_dictionaries = []
@@ -49,10 +67,11 @@ class DictionaryContainer():
             dictionary_path = os.path.join(dictionary_folder_path, dictionary_name)
             new_dictionary = JSONDictionary(dictionary_name, dictionary_path) #????ABSTRACT FACTORY
             st.session_state.uploaded_dictionaries.append(new_dictionary)
+        '''
 
 
     def add_dictionary(self, dictionary_name: str, dictionary_path: str): # -> bool SERVE ???????????????????
-        # !!!! ABSTRACT FACTORY !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        '''# !!!! ABSTRACT FACTORY !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         new_dictionary = JSONDictionary(dictionary_name, dictionary_path)
         self.__order_dictionaries()
         uploaded_dictionaries = st.session_state.uploaded_dictionaries
@@ -65,28 +84,64 @@ class DictionaryContainer():
             st.session_state.uploaded_dictionaries = uploaded_dictionaries
         else:
             st.session_state.uploaded_dictionaries = uploaded_dictionaries
+        '''
+        all_dictionaries_names = self.get_all_dictionaries_names()
+        all_dictionaries_names.sort()
+        all_dictionaries_names.insert(0,dictionary_name)
+        with open(self.dictionary_service_file_path, "w") as service_file:
+            '''
+            #writer = csv.writer(service_file, delimiter=";")
+            writer = csv.writer(service_file, lineterminator='\n')
+            print("DictionaryContainer:add_dictionary",dictionary_name)
+            writer.writerow([dictionary_name])
+            '''
+            writer = csv.writer(service_file, lineterminator='\n')
+            for dictionary in all_dictionaries_names:
+                writer.writerow([dictionary])
 
 
-    def get_dictionary_path(self, dictionary_name: str) -> str:
-        for dictionary in st.session_state.uploaded_dictionaries:
-            if dictionary_name == dictionary.get_dictionary_name():
-                return dictionary.get_dictionary_path()
-        return ""
-
-
-    def get_all_dictionaries_names(self) -> str:
+    def get_all_dictionaries_names(self): #!!!! RITORNA LISTA DI STRINGHE
+        '''
         dictionaries_list = []
-
         for dictionary in st.session_state.uploaded_dictionaries:
             dictionaries_list.append(dictionary.get_dictionary_name())
+        return dictionaries_list
+        '''
+        dictionaries_list = []
+        with open(self.dictionary_service_file_path, "r") as f:
+            reader = csv.reader(f)
 
+            for row in reader:
+                if len(row) > 0:
+                    dictionaries_list.append(row[0])
         return dictionaries_list
 
 
-    def get_elements_number(self):
+    def get_elements_number(self) -> int:
+        '''
         return len(st.session_state.uploaded_dictionaries)
+        '''
+        i=0
+        with open(self.dictionary_service_file_path, "r") as f:
+            reader = csv.reader(f)
+            for row in reader:
+                if len(row) > 0:
+                    i+=1
+        print("get_elements_number:reader",reader)
+        return i
 
-#-------- PER LETTURA FILE ---------
+
+    def get_dictionary_path(self, dictionary_name: str) -> str:
+        '''
+        return dictionary.get_dictionary_path()
+        '''
+        if self.__is_dictionary_present(dictionary_name):
+            return os.path.join(self.dictionaries_folder_path, dictionary_name)
+        return ""
+
+
+
+
 '''
 def checkData(username, password):
     file_path = os.path.join(dirPath, "pswrd.csv")

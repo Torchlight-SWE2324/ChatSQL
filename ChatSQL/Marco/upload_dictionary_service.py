@@ -46,7 +46,8 @@ class UploadDictionaryService():
 
     def upload_dictionary(self, uploaded_file) -> str: #????? RITORNARE CONFERMA?? COME STRINGA???
         #!!!!!!!!!!!!!!!! AVVISARE SELECTDICTIONARYSERVICE PER METTERLO AL PRIMO POSTO
-        dictionary_check = self.__dictionary_check(uploaded_file)
+        #dictionary_check = self.__dictionary_check(uploaded_file)
+        dictionary_check = ""#!!!!!!!!TEMPORANEO
 
         if dictionary_check == "": # ??????????? FARE NEL CONTROLLER
             file_content = uploaded_file.read()
