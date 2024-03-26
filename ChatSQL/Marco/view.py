@@ -2,19 +2,44 @@ import streamlit as st
 from dictionary_container import * #??? SERVE TUTTO ???
 from upload_dictionary_service import *
 from select_dictionary_service import *
+from select_dictionary_controller import *
 
 class DictionarySelectionWidget():
-    def __init__(self, select_dictionary_service: SelectDictionaryService):
-        self.select_dictionary_service = select_dictionary_service
+    def __init__(self, select_dictionary_controller: SelectDictionaryController):
+        self.select_dictionary_controller = select_dictionary_controller
         self.dictionaries_selection = st.sidebar.selectbox('Select dictionary:',
-                                      self.select_dictionary_service.get_all_dictionaries_names())
+        #st.sidebar.selectbox('Select dictionary:',
+                                      self.select_dictionary_controller.get_all_dictionaries_names())
+
+class UploadDictionaryWidget():
+    def __init__(self, upload_dictionary_service: UploadDictionaryService):
+        self.upload_dictionary_service = upload_dictionary_service
+        self.container_upload = st.sidebar.container()
+
+        with self.container_upload:
+            uploaded_file = st.file_uploader("Upload new data dictionary file", accept_multiple_files=False)
+            if st.button("Upload file", type="primary", on_click=None, disabled=uploaded_file == None):
+                self.__upload_dictionary(uploaded_file)
+
+    def __upload_dictionary(self, uploaded_file):
+        # print("View::__upload_dictionary------ ")  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        xxx = self.upload_dictionary_service.upload_dictionary(uploaded_file)
+        print(xxx)
 
 
 class ClientView():
-    def __init__(self, dictionary_selection_widget: DictionarySelectionWidget):
+    def __init__(self, dictionary_selection_widget: DictionarySelectionWidget, upload_dictionary_widget: UploadDictionaryWidget):
         self.dictionary_selection_widget = dictionary_selection_widget
+        self.upload_dictionary_widget = upload_dictionary_widget
 
 
+
+
+
+
+
+# !!!! VECCHIA UNICA VIEW !!!
+'''
 class View():
     def __init__(self, upload_dictionary_service, select_dictionary_service):
         #print("View::__init__----")#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -97,3 +122,4 @@ class View():
     def getUser(self):
         return [self.username, self.password]
 
+'''
