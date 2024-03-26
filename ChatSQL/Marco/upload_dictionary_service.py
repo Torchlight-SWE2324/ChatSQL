@@ -13,7 +13,7 @@ class UploadDictionaryService():
         self.__dictionary_container = dictionary_container
 
 
-    def __dictionary_check(self, uploaded_file): # !!!!!! FA CONTROLLER !!!!!!!!!!!
+    def __dictionary_check(self, uploaded_file) -> str: # !!!!!! FA CONTROLLER !!!!!!!!!!!
         if self.__dictionary_container.get_elements_number() > 3:
             return "App cannot contain more than 4 dictionaries."
 
@@ -44,7 +44,7 @@ class UploadDictionaryService():
             return f"The file is not compliant with the schema. Please upload a valid file."
 
 
-    def upload_dictionary(self, uploaded_file): #????? RITORNARE CONFERMA?? COME STRINGA???
+    def upload_dictionary(self, uploaded_file) -> str: #????? RITORNARE CONFERMA?? COME STRINGA???
         #!!!!!!!!!!!!!!!! AVVISARE SELECTDICTIONARYSERVICE PER METTERLO AL PRIMO POSTO
         dictionary_check = self.__dictionary_check(uploaded_file)
 

@@ -1,19 +1,19 @@
 import streamlit as st
 from dictionary_container import * #??? SERVE TUTTO ???
 from upload_dictionary_service import *
+from upload_dictionary_controller import *
 from select_dictionary_service import *
 from select_dictionary_controller import *
+
 
 class DictionarySelectionWidget():
     def __init__(self, select_dictionary_controller: SelectDictionaryController):
         self.select_dictionary_controller = select_dictionary_controller
-        self.dictionaries_selection = st.sidebar.selectbox('Select dictionary:',
-        #st.sidebar.selectbox('Select dictionary:',
-                                      self.select_dictionary_controller.get_all_dictionaries_names())
+        self.dictionaries_selection = st.sidebar.selectbox('Select dictionary:', self.select_dictionary_controller.get_all_dictionaries_names())
 
 class UploadDictionaryWidget():
-    def __init__(self, upload_dictionary_service: UploadDictionaryService):
-        self.upload_dictionary_service = upload_dictionary_service
+    def __init__(self, upload_dictionary_controller: UploadDictionaryController):
+        self.upload_dictionary_controller = upload_dictionary_controller
         self.container_upload = st.sidebar.container()
 
         with self.container_upload:
@@ -21,19 +21,39 @@ class UploadDictionaryWidget():
             if st.button("Upload file", type="primary", on_click=None, disabled=uploaded_file == None):
                 self.__upload_dictionary(uploaded_file)
 
+
     def __upload_dictionary(self, uploaded_file):
         # print("View::__upload_dictionary------ ")  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        xxx = self.upload_dictionary_service.upload_dictionary(uploaded_file)
-        print(xxx)
+        xxx = self.upload_dictionary_controller.upload_dictionary(uploaded_file) #?????? SERVE
 
 
+
+
+
+# ------ INTANTO NON SERVONO --------
+'''
 class ClientView():
     def __init__(self, dictionary_selection_widget: DictionarySelectionWidget, upload_dictionary_widget: UploadDictionaryWidget):
         self.dictionary_selection_widget = dictionary_selection_widget
         self.upload_dictionary_widget = upload_dictionary_widget
+        
+class LoginWidget():
+    def __int__(self):
+        self.btn = st.sidebar.button("Login",type="primary",on_click=None)
+        if self.btn :
+            self.login()
+    def login(self):
+        st.session_state.current_window = "technician_window"
+        print("login button")
 
-
-
+class LogoutWidget():
+    def __int__(self):
+        st.sidebar.button("Logout",on_click=None)
+    def logout(self):
+        st.session_state.current_window = "client_window"
+        print("logout button")
+    
+'''
 
 
 
