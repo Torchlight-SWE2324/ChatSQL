@@ -25,6 +25,7 @@ class UploadDictionaryWidget():
     def __upload_dictionary(self, uploaded_file):
         # print("View::__upload_dictionary------ ")  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         xxx = self.upload_dictionary_controller.upload_dictionary(uploaded_file) #?????? SERVE
+        print(xxx)
 
 
 

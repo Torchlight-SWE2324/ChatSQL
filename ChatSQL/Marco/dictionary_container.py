@@ -117,7 +117,7 @@ class DictionaryContainer():
         return dictionaries_list
 
 
-    def get_elements_number(self) -> int:
+    def get_loaded_dictionaries_number(self) -> int:
         '''
         return len(st.session_state.uploaded_dictionaries)
         '''
@@ -127,7 +127,6 @@ class DictionaryContainer():
             for row in reader:
                 if len(row) > 0:
                     i+=1
-        print("get_elements_number:reader",reader)
         return i
 
 
@@ -140,17 +139,6 @@ class DictionaryContainer():
         return ""
 
 
-
-
-'''
-def checkData(username, password):
-    file_path = os.path.join(dirPath, "pswrd.csv")
-    with open(file_path, "r") as f:
-        reader = csv.reader(f)
-        for row in reader:
-            if row[0] == username and row[1] == password:
-                return True
-'''
 
 
 # -------- SOLO PER TESTING ------------

@@ -13,27 +13,29 @@ class UploadDictionaryService():
         self.__dictionary_container = dictionary_container
 
 
-    def __dictionary_check(self, uploaded_file) -> str: # !!!!!! FA CONTROLLER !!!!!!!!!!!
-        if self.__dictionary_container.get_elements_number() > 3:
+    def __dictionary_check(self, uploaded_file_name, uploaded_file_content) -> str: # !!!!!! FA CONTROLLER !!!!!!!!!!!
+        if self.__dictionary_container.get_loaded_dictionaries_number() > 3:
             return "App cannot contain more than 4 dictionaries."
 
-        if uploaded_file is None:
-            return "File was not loaded, repeat attempt."
+        #if uploaded_file is None:
+            #return "File was not loaded, repeat attempt."
 
-        dictionary_name = uploaded_file.name
+        #dictionary_name = uploaded_file.name
         for dictionary in self.__dictionary_container.get_all_dictionaries_names():
-            if dictionary_name == dictionary:
-                return f'File with name "{dictionary_name}" already present.'
+            if uploaded_file_name == dictionary:
+                return f'File with name "{uploaded_file_name}" already present.'
 
-        dictionary_content = uploaded_file.read()
-        dictionary_content_str = dictionary_content.decode('utf-8')
+        #dictionary_content = uploaded_file.read()
+        #print("UploadDictionaryService:__dictionary_check",type(dictionary_content))#!!!!!!!!!!!!!!!!!!
+        #dictionary_content_str = dictionary_content.decode('utf-8')
+        #print("UploadDictionaryService:__dictionary_check", type(dictionary_content_str))#!!!!!!!!!!!!!!!!!
 
         dictionary_schema_folder_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "dicitionary_schemas")
         json_schema_file_path = os.path.join(dictionary_schema_folder_path, "json_schema.json")
 
         try:
             with open(json_schema_file_path, "r") as schema_file:
-                dictionary_data, json_schema  = json.loads(dictionary_content_str), json.load(schema_file)
+                dictionary_data, json_schema  = json.loads(uploaded_file_content), json.load(schema_file)
         except json.JSONDecodeError as e:
             return f"JSON file could not be loaded. Error: {e}"
 
@@ -44,25 +46,30 @@ class UploadDictionaryService():
             return f"The file is not compliant with the schema. Please upload a valid file."
 
 
-    def upload_dictionary(self, uploaded_file) -> str: #????? RITORNARE CONFERMA?? COME STRINGA???
+    #def upload_dictionary(self, uploaded_file) -> str:
+    def upload_dictionary(self, uploaded_file_name, uploaded_file_content) -> str:
         #!!!!!!!!!!!!!!!! AVVISARE SELECTDICTIONARYSERVICE PER METTERLO AL PRIMO POSTO
-        #dictionary_check = self.__dictionary_check(uploaded_file)
-        dictionary_check = ""#!!!!!!!!TEMPORANEO
+        dictionary_check = self.__dictionary_check(uploaded_file_name, uploaded_file_content)
 
         if dictionary_check == "": # ??????????? FARE NEL CONTROLLER
-            file_content = uploaded_file.read()
-            dictionary_name = uploaded_file.name
+            #file_content = uploaded_file.read()
+            #dictionary_name = uploaded_file.name
 
             #file_content_str = file_content.decode('utf-8')
             #!!!!!!!!!!!!!!!! DA SPOSTARE IN UNA FONZ APPOSTA
             dictionary_folder_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "dictionaries")
-            dictionary_path = os.path.join(dictionary_folder_path, dictionary_name)
+            dictionary_path = os.path.join(dictionary_folder_path, uploaded_file_name)
 
             with open(dictionary_path, "wb") as destination_file:
+                #destination_file.write(file_content)  # !!!!!!!!!!!!!!!!! VERIFICA SUCCESSO CARICAMENTO FILE
+                file_content = uploaded_file_content.encode()
                 destination_file.write(file_content) #!!!!!!!!!!!!!!!!! VERIFICA SUCCESSO CARICAMENTO FILE
 
-            self.__dictionary_container.add_dictionary(dictionary_name, dictionary_path)#????????? VERIFICA SUCCESSO CARICAMENTO FILE
-            return f'File "{dictionary_name}" uploaded successfully!'
+            #self.__dictionary_container.add_dictionary(dictionary_name, dictionary_path)#????????? VERIFICA SUCCESSO CARICAMENTO FILE
+            #return f'File "{dictionary_name}" uploaded successfully!'
+
+            self.__dictionary_container.add_dictionary(uploaded_file_name, dictionary_path)#????????? VERIFICA SUCCESSO CARICAMENTO FILE
+            return f'File "{uploaded_file_name}" uploaded successfully!'
 
         else:
             return dictionary_check
