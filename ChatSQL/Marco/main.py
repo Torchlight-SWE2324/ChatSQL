@@ -15,9 +15,6 @@ def main():
     if "selected_index" not in st.session_state:
         st.session_state.selected_index = 0 #None????
 
-    authentication_controller = AuthenticationController()
-    current_window = authentication_controller.get_current_window_name()
-
     dictionary_container = DictionaryContainer()
     select_dictionary_service = SelectDictionaryService(dictionary_container)
     upload_dictionary_service = UploadDictionaryService(dictionary_container)
@@ -26,9 +23,11 @@ def main():
 
     DictionarySelectionWidget(select_dictionary_controller)
 
+    authentication_controller = AuthenticationController()
+    current_window = authentication_controller.get_current_window_name()
+
     if current_window == "client_window":
         UploadDictionaryWidget(upload_dictionary_controller)
-
         if st.sidebar.button("Login", type="primary", on_click=None):
             authentication_controller.login()
             st.rerun()
