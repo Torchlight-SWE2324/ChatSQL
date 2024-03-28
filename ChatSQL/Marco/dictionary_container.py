@@ -56,7 +56,7 @@ class DictionaryContainer():
         return all_dictionaries_names.index(dictionary_name)
 
     # ---OK---
-    def get_dictionaries_number(self) -> int:
+    def get_loaded_dictionaries_number(self) -> int:
         return len(self.get_all_dictionaries_names())
 
     def add_dictionary(self, dictionary_name: str, dictionary_path: str):  # -> bool SERVE ???????????????????
@@ -78,11 +78,23 @@ class DictionaryContainer():
         all_dictionaries_names = self.get_all_dictionaries_names()
         print('DictionaryContainer.add_dictionary.self.get_all_dictionaries_names()',all_dictionaries_names)
         all_dictionaries_names.sort()
-        print('DictionaryContainer.add_dictionary.all_dictionaries_names.sort()',all_dictionaries_names)
-        print('DictionaryContainer.add_dictionary.all_dictionaries_names.index(dictionary_name)',all_dictionaries_names.index(dictionary_name))
+        print('DictionaryContainer.add_dictionary.all_dictionaries_names.sort()', all_dictionaries_names)
+        print('DictionaryContainer.add_dictionary.all_dictionaries_names.index(dictionary_name)', all_dictionaries_names.index(dictionary_name))
 
         st.session_state.selected_dictionary_index = all_dictionaries_names.index(dictionary_name)
-        print('DictionaryContainer.add_dictionary.st.session_state.selected_dictionary_index', st.session_state.selected_dictionary_index),print("ITERAZIONE: ",st.session_state.iter)
+        print('DictionaryContainer.add_dictionary.st.session_state.selected_dictionary_index', st.session_state.selected_dictionary_index), print("ITERAZIONE: ",st.session_state.iter)
+
+    def select_dictionary(self, dictionary_name): #??? RETURN BOOL?????--
+        all_dictionaries_names = self.get_all_dictionaries_names()
+        all_dictionaries_names.sort()
+        index = -1
+        if len(all_dictionaries_names) > 0 and dictionary_name is not None:
+            index = all_dictionaries_names.index(dictionary_name)
+        print('DictionaryContainer.select_dictionary.dictionary_name: ', dictionary_name)
+        print('DictionaryContainer.select_dictionary.index: ', index)
+        st.session_state.selected_dictionary_index = index
+
+
 
 
     # ----------------------------------------------------------------------------------
@@ -97,7 +109,6 @@ class DictionaryContainer():
         return ""
 
 
-
     # ??????????? SERVONO ?????????????
     # ---OK---
     def __get_dictionary_service_file_path(self) -> str:
@@ -105,69 +116,6 @@ class DictionaryContainer():
         dictionary_service_folder_path = os.path.join(dictionaries_folder_path, "dictionary_service")
         return os.path.join(dictionary_service_folder_path, "dictionary_service_file.csv")
 
-    def select_dictionary(self, dictionary_name): #??? RETURN BOOL?????--
-        all_dictionaries_names = self.get_all_dictionaries_names()
-        all_dictionaries_names.sort()
-        if len(all_dictionaries_names) > 0 and dictionary_name is not None:
-            st.session_state.selected_dictionary_index = all_dictionaries_names.index(dictionary_name)
-        print('DictionaryContainer.select_dictionary.dictionary_name: ', dictionary_name)
-        print('DictionaryContainer.select_dictionary: ', st.session_state.selected_dictionary_index)
-
-        '''
-        #print('DictionaryContainer.select_dictionary'),print("ITERAZIONE: ", st.session_state.iter)
-        #self.__order_dictionaries()
-        ordered_dictionaries_names_list = self.get_all_dictionaries_names()
-
-        #print('ordered_names_list = self.get_all_dictionaries_names(): ',ordered_dictionaries_names_list)#,print("ITERAZIONE: ", st.session_state.iter)
-
-        i = 0
-        #print('dizionario da mettere primo: ',dictionary_name)
-        for dictionary in ordered_dictionaries_names_list:
-            if dictionary == dictionary_name:
-                ordered_dictionaries_names_list.pop(i)
-            i+=1
-        #print('ordered_names_list dopo eliminazione elemento per 1 posto: ',ordered_dictionaries_names_list)#,print("ITERAZIONE: ", st.session_state.iter)
-
-        ordered_dictionaries_names_list.insert(0,dictionary_name)
-        #print('ordered_names_list dopo inserimento al 1 posto: ', ordered_dictionaries_names_list)#, print("ITERAZIONE: ", st.session_state.iter)
-
-        with open(self.dictionary_service_file_path, "w") as service_file:
-            writer = csv.writer(service_file, lineterminator='\n')
-            for dictionary in ordered_dictionaries_names_list:
-                if dictionary != "":
-                    writer.writerow([dictionary])
-        print("ITERAZIONE: ", st.session_state.iter)
-    '''
-
-
-
-    '''
-    def __order_dictionaries(self):
-
-        dictionaries_names_list = self.get_all_dictionaries_names()
-        ordered_dictionaries_names_list = sorted(dictionaries_names_list)
-        st.session_state.uploaded_dictionaries = []
-        dictionary_folder_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "dictionaries")
-
-        for dictionary_name in ordered_dictionaries_names_list:
-            dictionary_path = os.path.join(dictionary_folder_path, dictionary_name)
-            new_dictionary = JSONDictionary(dictionary_name, dictionary_path) #????ABSTRACT FACTORY
-            st.session_state.uploaded_dictionaries.append(new_dictionary)
-        #--------------------------------------------------
-        all_dictionaries_names = self.get_all_dictionaries_names()
-        all_dictionaries_names.sort()
-        with open(self.dictionary_service_file_path, "w") as service_file:
-            #--------------------------------------------------
-            #writer = csv.writer(service_file, delimiter=";")
-            writer = csv.writer(service_file, lineterminator='\n')
-            print("DictionaryContainer:add_dictionary",dictionary_name)
-            writer.writerow([dictionary_name])
-            #--------------------------------------------------
-            writer = csv.writer(service_file, lineterminator='\n')
-            for dictionary in all_dictionaries_names:
-                if dictionary != "":
-                    writer.writerow([dictionary])
-    '''
 
 
 

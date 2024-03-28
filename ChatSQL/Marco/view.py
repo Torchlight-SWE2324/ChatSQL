@@ -69,9 +69,14 @@ class DictionarySelectionWidget():
         loaded_dictionaries.sort()
         print("DictionarySelectionWidget.__init__.loaded_dictionaries.sort():", loaded_dictionaries)
 
-        selected_dictionary_index = st.session_state.selected_dictionary_index
-        print("DictionarySelectionWidget.__init__.st.session_state.selected_dictionary_index:", st.session_state.selected_dictionary_index)
+        #selected_dictionary_index = st.session_state.selected_dictionary_index
+        #print("DictionarySelectionWidget.__init__.st.session_state.selected_dictionary_index:", st.session_state.selected_dictionary_index)
 
+        selected_dictionary_name = st.sidebar.selectbox('Select dictionary:', loaded_dictionaries)
+        #print('DictionarySelectionWidget:selected_dictionary_name', selected_dictionary_name)
+        self.select_dictionary_controller.select_dictionary(selected_dictionary_name)
+
+        '''
         if selected_dictionary_index > -1:
             selected_dictionary_name = st.sidebar.selectbox('Select dictionary:', loaded_dictionaries, selected_dictionary_index)
             print('DictionarySelectionWidget:selected_dictionary_name', selected_dictionary_name)
@@ -81,6 +86,7 @@ class DictionarySelectionWidget():
             selected_dictionary_name = st.sidebar.selectbox('Select dictionary:', loaded_dictionaries)
             print('DictionarySelectionWidget:selected_dictionary_name', selected_dictionary_name)
             self.select_dictionary_controller.select_dictionary(selected_dictionary_name)
+        '''
 
 
 

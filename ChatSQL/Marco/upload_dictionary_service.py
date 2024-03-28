@@ -49,7 +49,7 @@ class UploadDictionaryService():
 
     # ---OK--- # ????? FA CONTROLLER
     def __dictionary_check(self, uploaded_file_name, uploaded_file_content) -> str:
-        if self.__dictionary_container.get_dictionaries_number() > 3:
+        if self.__dictionary_container.get_loaded_dictionaries_number() > 3:
             return "App cannot contain more than 4 dictionaries."
 
         for dictionary in self.__dictionary_container.get_all_dictionaries_names():

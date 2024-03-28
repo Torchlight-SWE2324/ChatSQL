@@ -7,7 +7,7 @@ class SelectDictionaryService():
         self.__dictionary_container = dictionary_container
 
 
-    def select_dictionary(self, dictionary_name): #!!!!!!!! MANCA COMANDO SWITCH PER EMBEDDER
+    def select_dictionary(self, dictionary_name):
         self.__dictionary_container.select_dictionary(dictionary_name)
 
 
