@@ -20,7 +20,6 @@ class JSONDictionary(Dictionary):
         super().__init__(dictionary_name, dictionary_path)
 
     def get_dictionary_name(self):
-        #print("JSONDictionary::get_dictionary_name:::self._dictionary_name "+self._dictionary_name)
         return self._dictionary_name
 
     def get_dictionary_path(self):
@@ -44,20 +43,6 @@ class DictionaryContainer():
 
     # ---OK---
     def get_all_dictionaries_names(self):
-        '''
-        dictionaries_list = []
-        for dictionary in st.session_state.uploaded_dictionaries:
-            dictionaries_list.append(dictionary.get_dictionary_name())
-        return dictionaries_list
-        #--------------------------------------------------------------
-        dictionaries_list = []
-        with open(self.dictionary_service_file_path, "r") as f:
-            reader = csv.reader(f)
-            for row in reader:
-                if len(row) > 0:
-                    dictionaries_list.append(row[0])
-        return dictionaries_list
-        '''
         dictionary_folder_path = self.__get_dictionaries_folder_path()
         list = []
         for name in os.listdir(dictionary_folder_path):

@@ -25,6 +25,7 @@ def main():
 
     authentication_controller = AuthenticationController()
     current_window = authentication_controller.get_current_window_name()
+
     if current_window == "client_window":
         UploadDictionaryWidget(upload_dictionary_controller)
         if st.sidebar.button("Login", type="primary", on_click=None):
@@ -38,8 +39,9 @@ def main():
                 authentication_controller.logout()
                 st.rerun()
 
+
     print('MAIN:st.session_state.selected_dictionary_index',st.session_state.selected_dictionary_index)
-    print("----------- FINE MAIN -----------")
+    print("----------- FINE MAIN -----------"),#print("ITERAZIONE: ", st.session_state.iter)
     print("")
 
 
