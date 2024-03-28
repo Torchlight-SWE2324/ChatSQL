@@ -67,27 +67,37 @@ class DictionarySelectionWidget():
 
         loaded_dictionaries = self.select_dictionary_controller.get_all_dictionaries_names()
         loaded_dictionaries.sort()
-        print("DictionarySelectionWidget.__init__.loaded_dictionaries.sort():", loaded_dictionaries)
 
-        #selected_dictionary_index = st.session_state.selected_dictionary_index
-        #print("DictionarySelectionWidget.__init__.st.session_state.selected_dictionary_index:", st.session_state.selected_dictionary_index)
-
+        '''
         selected_dictionary_name = st.sidebar.selectbox('Select dictionary:', loaded_dictionaries)
         #print('DictionarySelectionWidget:selected_dictionary_name', selected_dictionary_name)
         self.select_dictionary_controller.select_dictionary(selected_dictionary_name)
-
         '''
-        if selected_dictionary_index > -1:
-            selected_dictionary_name = st.sidebar.selectbox('Select dictionary:', loaded_dictionaries, selected_dictionary_index)
-            print('DictionarySelectionWidget:selected_dictionary_name', selected_dictionary_name)
+
+        if st.session_state.selected_dictionary_index > -1:
+
+            #print("DictionarySelectionWidget-2-st.session_state.selected_dictionary_index-: ", st.session_state.selected_dictionary_index)
+
+            #selected_dictionary_name=st.sidebar.selectbox('Select dictionary:',loaded_dictionaries,index=st.session_state.selected_dictionary_index,on_change=self.on_changeee())
+            selected_dictionary_name = st.sidebar.selectbox('Select dictionary:', loaded_dictionaries,on_change=self.on_changeee())
+            #st.sidebar.selectbox('Select dictionary:', loaded_dictionaries, on_change=self.on_changeee())
+            #print("DictionarySelectionWidget-3-st.session_state.selected_dictionary_index-: ", st.session_state.selected_dictionary_index)
+            #print('DictionarySelectionWidget:selected_dictionary_name::IF-----', selected_dictionary_name)
+            #print("DictionarySelectionWidget-4-st.session_state.selected_dictionary_index-: ", st.session_state.selected_dictionary_index)
+
             self.select_dictionary_controller.select_dictionary(selected_dictionary_name)
+            #print("DictionarySelectionWidget-5-st.session_state.selected_dictionary_index-: ", st.session_state.selected_dictionary_index)
 
         else:
             selected_dictionary_name = st.sidebar.selectbox('Select dictionary:', loaded_dictionaries)
-            print('DictionarySelectionWidget:selected_dictionary_name', selected_dictionary_name)
+            #print('DictionarySelectionWidget:selected_dictionary_name::ELSE', selected_dictionary_name)
             self.select_dictionary_controller.select_dictionary(selected_dictionary_name)
-        '''
 
+    def on_changeee(self):
+        a=0
+        #print("on_changeee")
+        #st.rerun()
+        #self.select_dictionary_controller.select_dictionary(selected_dictionary_name)
 
 
 

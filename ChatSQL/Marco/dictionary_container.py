@@ -74,25 +74,32 @@ class DictionaryContainer():
         else:
             st.session_state.uploaded_dictionaries = uploaded_dictionaries
         '''
-        print('DictionaryContainer.add_dictionary--iniz--')
+        #print('DictionaryContainer.add_dictionary--iniz--')
         all_dictionaries_names = self.get_all_dictionaries_names()
-        print('DictionaryContainer.add_dictionary.self.get_all_dictionaries_names()',all_dictionaries_names)
+        #print('DictionaryContainer.add_dictionary.self.get_all_dictionaries_names()',all_dictionaries_names)
+
         all_dictionaries_names.sort()
-        print('DictionaryContainer.add_dictionary.all_dictionaries_names.sort()', all_dictionaries_names)
-        print('DictionaryContainer.add_dictionary.all_dictionaries_names.index(dictionary_name)', all_dictionaries_names.index(dictionary_name))
+        #print('DictionaryContainer.add_dictionary.all_dictionaries_names.sort()', all_dictionaries_names)
+        #print('DictionaryContainer.add_dictionary.all_dictionaries_names.index(dictionary_name)', all_dictionaries_names.index(dictionary_name))
 
         st.session_state.selected_dictionary_index = all_dictionaries_names.index(dictionary_name)
-        print('DictionaryContainer.add_dictionary.st.session_state.selected_dictionary_index', st.session_state.selected_dictionary_index), print("ITERAZIONE: ",st.session_state.iter)
+        #print('DictionaryContainer.add_dictionary.st.session_state.selected_dictionary_index', st.session_state.selected_dictionary_index), print("ITERAZIONE: ",st.session_state.iter)
 
-    def select_dictionary(self, dictionary_name): #??? RETURN BOOL?????--
+    def select_dictionary(self, dictionary_name): # ???? RETURN BOOL ????
+        #print("--DictionaryContainer::select_dictionary-1-st.session_state.selected_dictionary_index: ", st.session_state.selected_dictionary_index)
+        #print("--DictionaryContainer::select_dictionary-dictionary_name: ",dictionary_name)
         all_dictionaries_names = self.get_all_dictionaries_names()
+        #print("--DictionaryContainer::select_dictionary-all_dictionaries_names: ",all_dictionaries_names)
         all_dictionaries_names.sort()
-        index = -1
+        #print("--DictionaryContainer::select_dictionary-all_dictionaries_names.sort(): ", all_dictionaries_names)
+        st.session_state.selected_dictionary_index  = -1
+        #print("--DictionaryContainer::select_dictionary-2-st.session_state.selected_dictionary_index: ", st.session_state.selected_dictionary_index)
         if len(all_dictionaries_names) > 0 and dictionary_name is not None:
-            index = all_dictionaries_names.index(dictionary_name)
-        print('DictionaryContainer.select_dictionary.dictionary_name: ', dictionary_name)
-        print('DictionaryContainer.select_dictionary.index: ', index)
-        st.session_state.selected_dictionary_index = index
+            st.session_state.selected_dictionary_index  = all_dictionaries_names.index(dictionary_name)
+        #print("--DictionaryContainer::select_dictionary-3-st.session_state.selected_dictionary_index: ", st.session_state.selected_dictionary_index)
+
+        #print("--DictionaryContainer::select_dictionary-4-st.session_state.selected_dictionary_index: ", st.session_state.selected_dictionary_index)
+
 
 
 
@@ -117,27 +124,21 @@ class DictionaryContainer():
         return os.path.join(dictionary_service_folder_path, "dictionary_service_file.csv")
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 # -------- SOLO PER TESTING ------------
 '''
     def pss(self):# SOLO PER TEST !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
