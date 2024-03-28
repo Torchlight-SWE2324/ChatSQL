@@ -12,8 +12,8 @@ def main():
     else: st.session_state.iter += 1
     print("--- INIZIO MAIN----ITERAZIONE: ", st.session_state.iter)
 
-    if "selected_index" not in st.session_state:
-        st.session_state.selected_index = 0 #None????
+    if "selected_dictionary_index" not in st.session_state:
+        st.session_state.selected_dictionary_index = -1
 
     dictionary_container = DictionaryContainer()
     select_dictionary_service = SelectDictionaryService(dictionary_container)
@@ -25,7 +25,6 @@ def main():
 
     authentication_controller = AuthenticationController()
     current_window = authentication_controller.get_current_window_name()
-
     if current_window == "client_window":
         UploadDictionaryWidget(upload_dictionary_controller)
         if st.sidebar.button("Login", type="primary", on_click=None):
@@ -39,7 +38,7 @@ def main():
                 authentication_controller.logout()
                 st.rerun()
 
-
+    print('MAIN:st.session_state.selected_dictionary_index',st.session_state.selected_dictionary_index)
     print("----------- FINE MAIN -----------")
     print("")
 

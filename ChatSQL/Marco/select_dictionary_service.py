@@ -20,7 +20,6 @@ class SelectDictionaryService():
         #print('SelectDictionaryService.select_dictionary'),print("ITERAZIONE: ",st.session_state.iter)
         #!!!!!!!! COMANDO SWITCH PER EMBEDDER
         self.__dictionary_container.select_dictionary(dictionary_name)
-        #index = self.__dictionary_container.get_dictionary_index(dictionary_name)
 
 
     def get_all_dictionaries_names(self):

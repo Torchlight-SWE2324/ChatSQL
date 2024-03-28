@@ -70,7 +70,6 @@ class DictionaryContainer():
         all_dictionaries_names.sort()
         return all_dictionaries_names.index(dictionary_name)
 
-
     # ---OK---
     def get_dictionaries_number(self) -> int:
         return len(self.get_all_dictionaries_names())
@@ -90,13 +89,15 @@ class DictionaryContainer():
         else:
             st.session_state.uploaded_dictionaries = uploaded_dictionaries
         '''
-        print('DictionaryContainer.add_dictionary')
+        print('DictionaryContainer.add_dictionary--iniz--')
         all_dictionaries_names = self.get_all_dictionaries_names()
-        all_dictionaries_names.insert(0, dictionary_name)
+        print('DictionaryContainer.add_dictionary.self.get_all_dictionaries_names()',all_dictionaries_names)
         all_dictionaries_names.sort()
+        print('DictionaryContainer.add_dictionary.all_dictionaries_names.sort()',all_dictionaries_names)
+        print('DictionaryContainer.add_dictionary.all_dictionaries_names.index(dictionary_name)',all_dictionaries_names.index(dictionary_name))
 
-        st.session_state.selected_index = all_dictionaries_names.index(dictionary_name)
-        print('DictionaryContainer.add_dictionary.st.session_state.selected_index', st.session_state.selected_index),print("ITERAZIONE: ",st.session_state.iter)
+        st.session_state.selected_dictionary_index = all_dictionaries_names.index(dictionary_name)
+        print('DictionaryContainer.add_dictionary.st.session_state.selected_dictionary_index', st.session_state.selected_dictionary_index),print("ITERAZIONE: ",st.session_state.iter)
 
 
     # ----------------------------------------------------------------------------------
@@ -119,7 +120,14 @@ class DictionaryContainer():
         dictionary_service_folder_path = os.path.join(dictionaries_folder_path, "dictionary_service")
         return os.path.join(dictionary_service_folder_path, "dictionary_service_file.csv")
 
-    def select_dictionary(self, dictionary_name): #??? RETURN BOOL?????
+    def select_dictionary(self, dictionary_name): #??? RETURN BOOL?????--
+        all_dictionaries_names = self.get_all_dictionaries_names()
+        all_dictionaries_names.sort()
+        if len(all_dictionaries_names) > 0 and dictionary_name is not None:
+            st.session_state.selected_dictionary_index = all_dictionaries_names.index(dictionary_name)
+        print('DictionaryContainer.select_dictionary.dictionary_name: ', dictionary_name)
+        print('DictionaryContainer.select_dictionary: ', st.session_state.selected_dictionary_index)
+
         '''
         #print('DictionaryContainer.select_dictionary'),print("ITERAZIONE: ", st.session_state.iter)
         #self.__order_dictionaries()
@@ -146,8 +154,11 @@ class DictionaryContainer():
         print("ITERAZIONE: ", st.session_state.iter)
     '''
 
+
+
+    '''
     def __order_dictionaries(self):
-        '''
+
         dictionaries_names_list = self.get_all_dictionaries_names()
         ordered_dictionaries_names_list = sorted(dictionaries_names_list)
         st.session_state.uploaded_dictionaries = []
@@ -171,7 +182,7 @@ class DictionaryContainer():
             for dictionary in all_dictionaries_names:
                 if dictionary != "":
                     writer.writerow([dictionary])
-        '''
+    '''
 
 
 
